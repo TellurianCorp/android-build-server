@@ -184,3 +184,10 @@ echo "Starting web server..."
   python3 server.py &
 )
 echo "Web interface available at http://localhost:8000"
+echo ""
+echo "To configure device address from your local IDE, use:"
+echo "  curl -X POST http://localhost:8000/api/device \\"
+echo "    -H \"Content-Type: application/json\" \\"
+echo "    -d '{\"address\": \"192.168.1.20:5555\"}'"
+echo ""
+echo "Replace 192.168.1.20:5555 with your actual device IP address and port."

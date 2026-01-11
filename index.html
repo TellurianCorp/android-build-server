@@ -38,24 +38,37 @@
         <div class="info-panel">
             <div class="info-panel-header" id="info-panel-toggle">
                 <div class="info-panel-title">
-                    <i class="fas fa-terminal"></i> Configure from Local IDE
+                    <i class="fas fa-terminal"></i> Setup & Configure from Local IDE
                 </div>
                 <i class="fas fa-chevron-down info-panel-toggle" id="info-toggle-icon"></i>
             </div>
             <div class="info-panel-content expanded" id="info-panel-content">
                 <p class="info-panel-text">
-                    To configure the device address from your local IDE using curl:
+                    <strong>1. Run the installer from your IDE machine (via SSH):</strong>
+                </p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyToClipboard(this, 'install-command')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <code id="install-command">ssh user@server 'cd /var/www/html/android-build && ./install.sh'</code>
+                </div>
+                <p class="info-panel-text" style="font-size: 0.85rem; margin-top: 8px;">
+                    <i class="fas fa-info-circle"></i> Replace <code style="background: var(--panel-strong); padding: 2px 6px; border-radius: 4px;">user@server</code> with your SSH credentials. The installer will prompt you for configuration and start the web server.
+                </p>
+                
+                <p class="info-panel-text" style="margin-top: 20px;">
+                    <strong>2. Configure device address from your IDE machine using curl:</strong>
                 </p>
                 <div class="code-block">
                     <button class="copy-btn" onclick="copyToClipboard(this, 'curl-config')">
                         <i class="fas fa-copy"></i> Copy
                     </button>
-                    <code id="curl-config">curl -X POST http://localhost:8000/api/device \
+                    <code id="curl-config">curl -X POST http://server-ip:8000/api/device \
   -H "Content-Type: application/json" \
   -d '{"address": "192.168.1.20:5555"}'</code>
                 </div>
                 <p class="info-panel-text" style="font-size: 0.85rem; margin-top: 8px;">
-                    <i class="fas fa-info-circle"></i> Replace <code style="background: var(--panel-strong); padding: 2px 6px; border-radius: 4px;">192.168.1.20:5555</code> with your actual device IP address and port.
+                    <i class="fas fa-info-circle"></i> Replace <code style="background: var(--panel-strong); padding: 2px 6px; border-radius: 4px;">server-ip</code> with your server's IP address, and <code style="background: var(--panel-strong); padding: 2px 6px; border-radius: 4px;">192.168.1.20:5555</code> with your actual device IP address and port.
                 </p>
             </div>
         </div>
