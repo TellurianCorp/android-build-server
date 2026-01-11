@@ -557,10 +557,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
 
 
+class ReusableTCPServer(socketserver.TCPServer):
+    allow_reuse_address = True
+
+
 PORT = 8000
 try:
     ensure_dirs()
-    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+    with ReusableTCPServer(("0.0.0.0", PORT), Handler) as httpd:
         logging.info(f"Serving at port {PORT}")
         print(f"serving at port {PORT}")
         httpd.serve_forever()
