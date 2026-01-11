@@ -218,6 +218,63 @@ def run_build(project_name, build_type):
             ACTIVE_BUILDS.pop(project_name, None)
 
 
+def run_clean_cache(project_name):
+    """Clean Gradle cache for a project."""
+    project_dir = project_path(project_name)
+    if not project_dir:
+        return
+
+    try:
+        write_status(project_name, "cleaning", 10, message="Cleaning Gradle cache...")
+        gradlew = project_dir / "gradlew"
+        subprocess.run(["chmod", "+x", str(gradlew)], check=True)
+
+        # Run gradle clean
+        write_status(project_name, "cleaning", 50, message="Running gradle clean...")
+        process = subprocess.run(
+            [str(gradlew), "clean"],
+            cwd=str(project_dir),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            env=BUILD_ENV
+        )
+
+        # Save output
+        combined_output = (process.stdout or "") + "\n" + (process.stderr or "")
+        save_build_log(project_name, combined_output)
+
+        if process.returncode != 0:
+            raise subprocess.CalledProcessError(process.returncode, ["gradlew", "clean"])
+
+        # Also clean .gradle directory in project
+        gradle_cache = project_dir / ".gradle"
+        if gradle_cache.exists():
+            shutil.rmtree(str(gradle_cache), ignore_errors=True)
+
+        # Clean build directory
+        build_dir = project_dir / "build"
+        if build_dir.exists():
+            shutil.rmtree(str(build_dir), ignore_errors=True)
+
+        app_build_dir = project_dir / "app" / "build"
+        if app_build_dir.exists():
+            shutil.rmtree(str(app_build_dir), ignore_errors=True)
+
+        write_status(project_name, "done", 100, message="Cache cleaned successfully.")
+    except subprocess.CalledProcessError as e:
+        logging.error("Clean cache failed for %s: %s", project_name, e)
+        write_status(project_name, "error", 0, message="Clean cache failed. View logs for details.")
+    except Exception as e:
+        save_build_log(project_name, f"Unexpected error: {str(e)}")
+        logging.error("Unexpected clean error for %s: %s", project_name, e)
+        write_status(project_name, "error", 0, message="Unexpected error. View logs for details.")
+    finally:
+        with BUILD_LOCK:
+            ACTIVE_BUILDS.pop(project_name, None)
+
+
 def latest_artifact_path(project_name):
     project_artifacts = ARTIFACT_DIR / project_name
     if project_artifacts.exists():
@@ -463,6 +520,32 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 )
                 t.start()
                 self._send_json({"message": "Deploy started"})
+            except json.JSONDecodeError:
+                logging.error("Invalid JSON in POST request")
+                self._send_json({"error": "Invalid JSON"}, status=HTTPStatus.BAD_REQUEST)
+            except Exception as e:
+                logging.error(f"Error processing POST request: {e}")
+                self._send_json({"error": "Server error"}, status=HTTPStatus.INTERNAL_SERVER_ERROR)
+        elif self.path == '/api/clean-cache':
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            try:
+                data = json.loads(post_data)
+                project = data.get("project", "")
+                project_dir = project_path(project)
+                if not project_dir or not has_gradlew(project_dir):
+                    self._send_json({"error": "Project not found or missing gradlew."}, status=HTTPStatus.BAD_REQUEST)
+                    return
+
+                with BUILD_LOCK:
+                    if project in ACTIVE_BUILDS:
+                        self._send_json({"message": "Build already running."})
+                        return
+                    t = threading.Thread(target=run_clean_cache, args=(project,), daemon=True)
+                    ACTIVE_BUILDS[project] = t
+                    t.start()
+
+                self._send_json({"message": "Clean cache started"})
             except json.JSONDecodeError:
                 logging.error("Invalid JSON in POST request")
                 self._send_json({"error": "Invalid JSON"}, status=HTTPStatus.BAD_REQUEST)

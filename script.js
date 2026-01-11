@@ -62,6 +62,10 @@ function buildProjectCard(project) {
     deployBtn.className = "btn secondary";
     deployBtn.innerHTML = `<i class="fas fa-rocket"></i> Deploy APK`;
 
+    const cleanBtn = document.createElement("button");
+    cleanBtn.className = "btn secondary";
+    cleanBtn.innerHTML = `<i class="fas fa-broom"></i> Clean Cache`;
+
     const artifact = document.createElement("div");
     artifact.className = "artifact";
     artifact.innerHTML = `<i class="fas fa-download"></i> Latest APK: <span class="muted">none</span>`;
@@ -74,6 +78,7 @@ function buildProjectCard(project) {
 
     actions.appendChild(buildBtn);
     actions.appendChild(deployBtn);
+    actions.appendChild(cleanBtn);
 
     card.appendChild(header);
     card.appendChild(statusText);
@@ -85,6 +90,7 @@ function buildProjectCard(project) {
 
     buildBtn.addEventListener("click", () => startBuild(project, buildBtn));
     deployBtn.addEventListener("click", () => deployProject(project, deployBtn));
+    cleanBtn.addEventListener("click", () => cleanCache(project, cleanBtn));
 
     projectElements.set(project, {
         pill,
@@ -93,6 +99,7 @@ function buildProjectCard(project) {
         progressBar,
         buildBtn,
         deployBtn,
+        cleanBtn,
         artifact,
         viewLogsBtn,
     });
@@ -111,7 +118,7 @@ function updateProjectStatus(project, data) {
     let statusIcon = "fa-circle";
     if (status === "done") statusIcon = "fa-check-circle";
     else if (status === "error") statusIcon = "fa-exclamation-circle";
-    else if (status === "building" || status === "preparing" || status === "finding_apk") statusIcon = "fa-spinner fa-spin";
+    else if (status === "building" || status === "preparing" || status === "finding_apk" || status === "cleaning") statusIcon = "fa-spinner fa-spin";
     else if (status === "deployed") statusIcon = "fa-check-circle";
     else if (status === "installing_apk" || status === "connecting_device") statusIcon = "fa-sync fa-spin";
     
@@ -126,6 +133,7 @@ function updateProjectStatus(project, data) {
     const isRunning = status !== "done" && status !== "error" && status !== "not_started" && status !== "deployed";
     refs.buildBtn.disabled = isRunning;
     refs.deployBtn.disabled = isRunning;
+    refs.cleanBtn.disabled = isRunning;
 
     // Show view logs button when there's an error
     if (status === "error") {
@@ -218,6 +226,25 @@ function deployProject(project, button) {
         .then(() => updateStatusForProject(project))
         .catch((error) => {
             console.error("Error deploying build:", error);
+            button.disabled = false;
+        });
+}
+
+function cleanCache(project, button) {
+    button.disabled = true;
+    fetch("/api/clean-cache", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            project,
+        }),
+    })
+        .then((response) => response.json())
+        .then(() => updateStatusForProject(project))
+        .catch((error) => {
+            console.error("Error cleaning cache:", error);
             button.disabled = false;
         });
 }
