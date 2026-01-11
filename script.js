@@ -27,11 +27,11 @@ function buildProjectCard(project) {
 
     const name = document.createElement("div");
     name.className = "project-name";
-    name.textContent = project;
+    name.innerHTML = `<i class="fas fa-folder"></i> ${project}`;
 
     const pill = document.createElement("span");
     pill.className = "status-pill";
-    pill.textContent = "IDLE";
+    pill.innerHTML = `<i class="fas fa-circle"></i> IDLE`;
 
     header.appendChild(name);
     header.appendChild(pill);
@@ -42,7 +42,7 @@ function buildProjectCard(project) {
 
     const progressLabel = document.createElement("div");
     progressLabel.className = "progress-label";
-    progressLabel.innerHTML = `<span>Progress</span><span>0%</span>`;
+    progressLabel.innerHTML = `<span><i class="fas fa-tasks"></i> Progress</span><span>0%</span>`;
 
     const progress = document.createElement("div");
     progress.className = "progress";
@@ -56,19 +56,19 @@ function buildProjectCard(project) {
 
     const buildBtn = document.createElement("button");
     buildBtn.className = "btn";
-    buildBtn.textContent = "Start build";
+    buildBtn.innerHTML = `<i class="fas fa-play"></i> Start build`;
 
     const deployBtn = document.createElement("button");
     deployBtn.className = "btn secondary";
-    deployBtn.textContent = "Deploy APK";
+    deployBtn.innerHTML = `<i class="fas fa-rocket"></i> Deploy APK`;
 
     const artifact = document.createElement("div");
     artifact.className = "artifact";
-    artifact.innerHTML = "Latest APK: <span class=\"muted\">none</span>";
+    artifact.innerHTML = `<i class="fas fa-download"></i> Latest APK: <span class="muted">none</span>`;
 
     const viewLogsBtn = document.createElement("button");
     viewLogsBtn.className = "btn secondary view-logs-btn";
-    viewLogsBtn.textContent = "View Logs";
+    viewLogsBtn.innerHTML = `<i class="fas fa-file-alt"></i> View Logs`;
     viewLogsBtn.style.display = "none";
     viewLogsBtn.addEventListener("click", () => showLogs(project));
 
@@ -106,12 +106,22 @@ function updateProjectStatus(project, data) {
 
     const status = data.status || "not_started";
     refs.statusText.textContent = titleize(status);
-    refs.pill.textContent = status === "not_started" ? "IDLE" : status.toUpperCase();
+    
+    // Update status pill with icon
+    let statusIcon = "fa-circle";
+    if (status === "done") statusIcon = "fa-check-circle";
+    else if (status === "error") statusIcon = "fa-exclamation-circle";
+    else if (status === "building" || status === "preparing" || status === "finding_apk") statusIcon = "fa-spinner fa-spin";
+    else if (status === "deployed") statusIcon = "fa-check-circle";
+    else if (status === "installing_apk" || status === "connecting_device") statusIcon = "fa-sync fa-spin";
+    
+    const statusText = status === "not_started" ? "IDLE" : status.toUpperCase();
+    refs.pill.innerHTML = `<i class="fas ${statusIcon}"></i> ${statusText}`;
     refs.pill.className = `status-pill ${statusClass(status)}`.trim();
 
     const progress = Number.isFinite(data.progress) ? data.progress : 0;
     refs.progressBar.style.width = `${progress}%`;
-    refs.progressLabel.innerHTML = `<span>Progress</span><span>${progress}%</span>`;
+    refs.progressLabel.innerHTML = `<span><i class="fas fa-tasks"></i> Progress</span><span>${progress}%</span>`;
 
     const isRunning = status !== "done" && status !== "error" && status !== "not_started";
     refs.buildBtn.disabled = isRunning;
@@ -125,7 +135,7 @@ function updateProjectStatus(project, data) {
     }
 
     if (data.artifact) {
-        refs.artifact.innerHTML = `Latest APK: <a href="${data.artifact}" target="_blank" rel="noopener">Download</a>`;
+        refs.artifact.innerHTML = `<i class="fas fa-download"></i> Latest APK: <a href="${data.artifact}" target="_blank" rel="noopener"><i class="fas fa-download"></i> Download</a>`;
     }
 
     if (data.message) {

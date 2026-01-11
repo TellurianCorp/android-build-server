@@ -1,7 +1,7 @@
 # Android Build Server
 
-[![Tests](https://github.com/USERNAME/android-build/actions/workflows/test.yml/badge.svg)](https://github.com/USERNAME/android-build/actions/workflows/test.yml)
-[![Coverage](https://codecov.io/gh/USERNAME/android-build/branch/main/graph/badge.svg)](https://codecov.io/gh/USERNAME/android-build)
+[![Tests](https://github.com/TellurianCorp/android-build-server/actions/workflows/test.yml/badge.svg)](https://github.com/TellurianCorp/android-build-server/actions/workflows/test.yml)
+[![Coverage](https://codecov.io/gh/TellurianCorp/android-build-server/branch/main/graph/badge.svg?token=XSMLPRV9EH)](https://codecov.io/gh/TellurianCorp/android-build-server)
 [![Python](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -9,41 +9,41 @@ A web-based Android build server that provides a modern interface for building a
 
 ## Features
 
-- 🚀 **Web-based Interface**: Modern, responsive web UI for managing builds
-- 📦 **APK Building**: Build debug and release APKs from Android projects
-- 📱 **Device Deployment**: Deploy APKs directly to Android devices via ADB
-- 📊 **Build Status**: Real-time build progress and status tracking
-- 📝 **Build Logs**: View detailed build logs for troubleshooting
-- 🔒 **Project Isolation**: Secure project path validation
-- ⚡ **Async Builds**: Non-blocking build execution with threading
+- <i class="fas fa-globe"></i> **Web-based Interface**: Modern, responsive web UI for managing builds
+- <i class="fas fa-cube"></i> **APK Building**: Build debug and release APKs from Android projects
+- <i class="fas fa-mobile-alt"></i> **Device Deployment**: Deploy APKs directly to Android devices via ADB
+- <i class="fas fa-chart-line"></i> **Build Status**: Real-time build progress and status tracking
+- <i class="fas fa-file-alt"></i> **Build Logs**: View detailed build logs for troubleshooting
+- <i class="fas fa-shield-alt"></i> **Project Isolation**: Secure project path validation
+- <i class="fas fa-bolt"></i> **Async Builds**: Non-blocking build execution with threading
 
 ## Requirements
 
-- Python 3.6+
-- Android SDK with platform-tools (for ADB deployment)
-- Gradle-based Android projects
-- Nginx (optional, for reverse proxy)
+- <i class="fab fa-python"></i> Python 3.6+
+- <i class="fab fa-android"></i> Android SDK with platform-tools (for ADB deployment)
+- <i class="fas fa-project-diagram"></i> Gradle-based Android projects
+- <i class="fas fa-server"></i> Nginx (optional, for reverse proxy)
 
 ## Installation
 
 ### Quick Start
 
-1. Clone this repository:
+1. <i class="fas fa-clone"></i> Clone this repository:
 ```bash
 git clone <repository-url>
 cd android-build
 ```
 
-2. Install Python dependencies:
+2. <i class="fas fa-download"></i> Install Python dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Ensure your Android projects are located in `/home/projects/` directory. Each project should:
+3. <i class="fas fa-folder"></i> Ensure your Android projects are located in `/home/projects/` directory. Each project should:
    - Have a `gradlew` executable
    - Be a valid Gradle-based Android project
 
-4. Start the server:
+4. <i class="fas fa-play"></i> Start the server:
 ```bash
 python3 server.py
 ```
@@ -52,55 +52,55 @@ The web interface will be available at `http://localhost:8000`
 
 ### Using the Installer Script
 
-Run the interactive installer:
+<i class="fas fa-cog"></i> Run the interactive installer:
 ```bash
 ./install.sh
 ```
 
 The installer will:
-- Check for required tools (rsync, ssh, scp, python3)
-- Configure remote build settings
-- Set up helper scripts
-- Start the web server
+- <i class="fas fa-check-circle"></i> Check for required tools (rsync, ssh, scp, python3)
+- <i class="fas fa-sliders-h"></i> Configure remote build settings
+- <i class="fas fa-file-code"></i> Set up helper scripts
+- <i class="fas fa-server"></i> Start the web server
 
 ### Installing as a Systemd Service
 
-To run the server as a systemd service (recommended for production):
+<i class="fas fa-server"></i> To run the server as a systemd service (recommended for production):
 
 ```bash
 sudo ./install-service.sh
 ```
 
 The installer will:
-- Create a systemd service file
-- Configure the service to run as a specific user
-- Set proper file permissions
-- Enable the service to start on boot
-- Optionally start the service immediately
+- <i class="fas fa-file"></i> Create a systemd service file
+- <i class="fas fa-user"></i> Configure the service to run as a specific user
+- <i class="fas fa-key"></i> Set proper file permissions
+- <i class="fas fa-power-off"></i> Enable the service to start on boot
+- <i class="fas fa-play-circle"></i> Optionally start the service immediately
 
 **Service Management:**
 ```bash
-# Start the service
+# <i class="fas fa-play"></i> Start the service
 sudo systemctl start android-build
 
-# Stop the service
+# <i class="fas fa-stop"></i> Stop the service
 sudo systemctl stop android-build
 
-# Restart the service
+# <i class="fas fa-redo"></i> Restart the service
 sudo systemctl restart android-build
 
-# Check service status
+# <i class="fas fa-info-circle"></i> Check service status
 sudo systemctl status android-build
 
-# View logs
+# <i class="fas fa-file-alt"></i> View logs
 sudo journalctl -u android-build -f
 
-# Enable/disable auto-start on boot
+# <i class="fas fa-toggle-on"></i> Enable/disable auto-start on boot
 sudo systemctl enable android-build
 sudo systemctl disable android-build
 ```
 
-## Configuration
+## ⚙️ Configuration
 
 ### Project Directory
 
@@ -109,7 +109,7 @@ By default, the server looks for Android projects in `/home/projects/`. Each pro
 - Be a valid Android Gradle project
 - Have the standard Android project structure
 
-### Device Configuration
+### 📱 Device Configuration
 
 To deploy APKs to devices, configure the device address via the web interface or by editing `device.json`:
 
@@ -121,7 +121,7 @@ To deploy APKs to devices, configure the device address via the web interface or
 
 **Note**: `device.json` is git-ignored as it contains deployment-specific configuration.
 
-### Nginx Configuration (Optional)
+### 🌐 Nginx Configuration (Optional)
 
 If using Nginx as a reverse proxy, create an `nginx.conf` file (template provided but git-ignored):
 
@@ -149,21 +149,21 @@ server {
 
 ## Usage
 
-### Web Interface
+### 🌐 Web Interface
 
-1. Open `http://localhost:8000` in your browser
-2. Select a project from the dropdown
-3. Choose build type (debug or release)
-4. Click "Start Build" to begin building
-5. Monitor build progress in real-time
-6. Download the APK when the build completes
+1. <i class="fas fa-globe"></i> Open `http://localhost:8000` in your browser
+2. <i class="fas fa-folder"></i> Select a project from the dropdown
+3. <i class="fas fa-wrench"></i> Choose build type (debug or release)
+4. <i class="fas fa-play"></i> Click "Start Build" to begin building
+5. <i class="fas fa-chart-line"></i> Monitor build progress in real-time
+6. <i class="fas fa-download"></i> Download the APK when the build completes
 
-### Device Deployment
+### 📱 Device Deployment
 
-1. Configure your device address in the web interface
-2. Ensure your Android device is connected via ADB (USB or network)
-3. Build an APK or use an existing one
-4. Click "Deploy" to install the APK on your device
+1. <i class="fas fa-cog"></i> Configure your device address in the web interface
+2. <i class="fas fa-plug"></i> Ensure your Android device is connected via ADB (USB or network)
+3. <i class="fas fa-cube"></i> Build an APK or use an existing one
+4. <i class="fas fa-rocket"></i> Click "Deploy" to install the APK on your device
 
 ### API Endpoints
 
@@ -189,7 +189,7 @@ The server provides REST API endpoints:
   }
   ```
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 android-build/
@@ -217,7 +217,7 @@ android-build/
 └── status/                # Build status files (git-ignored)
 ```
 
-## Build Process
+## 🏗️ Build Process
 
 1. **Preparing**: Validates project and prepares build environment
 2. **Building**: Executes Gradle build command
@@ -225,21 +225,21 @@ android-build/
 4. **Copying**: Copies APK to artifacts directory
 5. **Done**: Build complete, APK available for download
 
-## Deployment Process
+## 🚀 Deployment Process
 
 1. **Connecting Device**: Connects to Android device via ADB
 2. **Finding APK**: Locates the APK to deploy
 3. **Installing APK**: Installs APK on the device
 4. **Deployed**: Installation complete
 
-## Security Considerations
+## 🔒 Security Considerations
 
 - Project paths are validated to prevent directory traversal attacks
 - Only projects in `/home/projects/` are accessible
 - Build commands are executed in isolated project directories
 - Device addresses are validated before deployment
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
 ### Build Fails
 
@@ -261,7 +261,7 @@ android-build/
 - Ensure each project has a `gradlew` executable
 - Check file permissions on project directories
 
-## Testing
+## 🧪 Testing
 
 The project includes comprehensive unit tests with coverage reporting.
 
@@ -288,15 +288,29 @@ make test-file FILE=tests/test_device.py  # Run specific test file
 
 ### Test Coverage
 
+**Coverage Requirements:**
+- Minimum coverage threshold: **60%**
+- Coverage is enforced in CI/CD pipeline
+- Pull requests will be blocked if coverage falls below threshold
+
 Generate coverage report:
 ```bash
-pytest --cov=. --cov-report=html
+pytest --cov=. --cov-report=html --cov-fail-under=60
 ```
 
 View the HTML report:
 ```bash
 open htmlcov/index.html  # macOS
 xdg-open htmlcov/index.html  # Linux
+```
+
+Check coverage locally:
+```bash
+# Run with coverage threshold (will fail if below 60%)
+pytest --cov=. --cov-fail-under=60
+
+# Generate detailed coverage report
+pytest --cov=. --cov-report=term-missing --cov-report=html
 ```
 
 ### Test Structure
@@ -319,7 +333,7 @@ tests/
 
 Tests use `pytest` with fixtures for isolated test environments. Each test file focuses on a specific module or functionality. Mocking is used for external dependencies like subprocess calls and file system operations.
 
-## Development
+## 💻 Development
 
 ### Running in Development
 
@@ -343,17 +357,31 @@ When adding new features:
 3. Check coverage: `make test-cov`
 4. Update documentation as needed
 
-## CI/CD Pipeline
+## 🔄 CI/CD Pipeline
 
-This project uses GitHub Actions for continuous integration and deployment.
+This project uses GitHub Actions for continuous integration and deployment with **mandatory test and coverage requirements** for all submissions.
 
 ### Workflows
 
 - **Tests** (`.github/workflows/test.yml`): Runs tests on multiple Python versions (3.9, 3.10, 3.11, 3.12)
   - Executes all unit tests with coverage
+  - **Enforces 60% minimum coverage threshold**
   - Uploads coverage reports to Codecov
   - Generates HTML coverage reports as artifacts
   - Runs on push and pull requests
+  - **Required for merge**
+
+- **Coverage Gate** (`.github/workflows/coverage-gate.yml`): Enforces coverage requirements
+  - Blocks PRs if coverage is below 60%
+  - Compares coverage with base branch
+  - Posts coverage comments on PRs
+  - **Required for merge**
+
+- **PR Checks** (`.github/workflows/pr-checks.yml`): Comprehensive PR validation
+  - Runs all tests with coverage threshold
+  - Validates test count
+  - Runs linting checks
+  - **Required for merge**
 
 - **Lint** (`.github/workflows/lint.yml`): Code quality checks
   - Runs flake8 for style and error checking
@@ -363,7 +391,7 @@ This project uses GitHub Actions for continuous integration and deployment.
 ### Coverage Reports
 
 Coverage reports are automatically generated and uploaded to:
-- **Codecov**: [View coverage dashboard](https://codecov.io/gh/USERNAME/android-build)
+- **Codecov**: [View coverage dashboard](https://codecov.io/gh/TellurianCorp/android-build-server)
 - **GitHub Actions Artifacts**: Download HTML reports from workflow runs
 
 ### Setting Up CI/CD
@@ -373,13 +401,41 @@ Coverage reports are automatically generated and uploaded to:
    - Add your repository
    - Update the badge URLs in README.md with your username/organization
 
-2. **Update Badge URLs**:
-   - Replace `USERNAME` in the badge URLs with your GitHub username or organization
-   - Update the repository name if different
+2. **Badge URLs** (Already configured):
+   - Organization: `TellurianCorp`
+   - Repository: `android-build-server`
+   - Badges are automatically updated with coverage data
 
-3. **Push to GitHub**:
+3. **Configure Branch Protection** (Recommended):
+   - Go to repository Settings → Branches
+   - Add branch protection rule for `main`/`master`
+   - Require status checks:
+     - `Tests / test (3.12)`
+     - `Coverage Gate / enforce-coverage`
+     - `PR Checks / test-required`
+     - `PR Checks / coverage-required`
+   - Require branches to be up to date before merging
+
+4. **Push to GitHub**:
    - The workflows will automatically run on push and pull requests
+   - **Pull requests cannot be merged until all checks pass**
    - Check the Actions tab in GitHub to view workflow runs
+
+### PR Submission Requirements
+
+All pull requests must meet these requirements:
+
+✅ **All tests must pass**
+✅ **Coverage must be ≥ 60%**
+✅ **Coverage must not decrease from base branch**
+✅ **Linting must pass**
+✅ **No merge conflicts**
+
+The CI/CD pipeline will automatically:
+- Run all tests across Python 3.9-3.12
+- Check coverage threshold (60% minimum)
+- Validate code quality
+- Block merge if requirements are not met
 
 ### Local CI Simulation
 

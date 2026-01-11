@@ -6,10 +6,17 @@ This guide shows you how to add your Codecov token as a GitHub secret so the CI/
 
 ### 1. Get Your Codecov Token
 
+✅ **Your Codecov Token**: `XSMLPRV9EH`
+
+This token is already configured in your Codecov repository:
+- Repository: `TellurianCorp/android-build-server`
+- Token: `XSMLPRV9EH`
+
+If you need to retrieve it again:
 1. Go to [codecov.io](https://codecov.io) and sign in
 2. Navigate to your repository settings
 3. Find the "Repository Upload Token" section
-4. Copy the token (it's a long alphanumeric string)
+4. Copy the token
 
 ### 2. Add Token to GitHub Secrets
 
@@ -19,7 +26,7 @@ This guide shows you how to add your Codecov token as a GitHub secret so the CI/
 4. Click **New repository secret**
 5. Fill in:
    - **Name**: `CODECOV_TOKEN`
-   - **Value**: Paste your Codecov token
+   - **Value**: `XSMLPRV9EH` (your Codecov token)
 6. Click **Add secret**
 
 ### 3. Verify the Secret

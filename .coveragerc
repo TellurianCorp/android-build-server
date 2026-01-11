@@ -22,5 +22,8 @@ precision = 2
 show_missing = True
 skip_covered = False
 
+# Coverage thresholds - fail if below these percentages
+fail_under = 60
+
 [html]
 directory = htmlcov

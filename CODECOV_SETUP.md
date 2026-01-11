@@ -9,39 +9,38 @@ This guide explains how to set up Codecov for coverage reporting in your GitHub 
    - Sign in with your GitHub account
    - Authorize Codecov to access your repositories
 
-2. **Add Your Repository**
-   - Click "Add new repository" in Codecov dashboard
-   - Select your `android-build` repository
-   - Codecov will automatically detect the repository
+2. **Add Your Repository** ✅ (Already configured)
+   - Repository: `TellurianCorp/android-build-server`
+   - Codecov is connected and receiving coverage data
 
 3. **Add Codecov Token to GitHub Secrets** (Recommended)
-   - In Codecov, go to your repository settings
-   - Copy your repository upload token (starts with a long alphanumeric string)
+   - Your Codecov token: `XSMLPRV9EH`
    - Go to your GitHub repository → Settings → Secrets and variables → Actions
    - Click "New repository secret"
    - Name: `CODECOV_TOKEN`
-   - Value: Paste your Codecov token
+   - Value: `XSMLPRV9EH`
    - Click "Add secret"
    
    **Note:** The workflow will work without a token if your repository is connected via GitHub OAuth, but using a token is more reliable.
 
-4. **Update Badge URLs**
-   - In `README.md`, replace `USERNAME` with your GitHub username or organization
-   - Replace `android-build` with your repository name if different
-   - The badges will automatically update once Codecov receives coverage data
+4. **Badge URLs** ✅ (Already configured)
+   - Organization: `TellurianCorp`
+   - Repository: `android-build-server`
+   - Badges are automatically updated with coverage data
 
 ## Badge URLs
 
-The badges in README.md use these formats:
+The badges in README.md are configured as:
 
 ```markdown
-[![Coverage](https://codecov.io/gh/USERNAME/android-build/branch/main/graph/badge.svg)](https://codecov.io/gh/USERNAME/android-build)
+[![Coverage](https://codecov.io/gh/TellurianCorp/android-build-server/branch/main/graph/badge.svg?token=XSMLPRV9EH)](https://codecov.io/gh/TellurianCorp/android-build-server)
 ```
 
-Replace:
-- `USERNAME` → Your GitHub username or organization
-- `android-build` → Your repository name (if different)
-- `main` → Your default branch name (if different)
+Current configuration:
+- Organization: `TellurianCorp`
+- Repository: `android-build-server`
+- Branch: `main`
+- Token: Included in badge URL for authenticated access
 
 ## GitHub Actions Integration
 

@@ -1,4 +1,4 @@
-.PHONY: test test-cov test-html install clean
+.PHONY: test test-cov test-html test-ci install clean
 
 # Install dependencies
 install:
@@ -10,12 +10,16 @@ test:
 
 # Run tests with coverage
 test-cov:
-	pytest --cov=. --cov-report=term-missing
+	pytest --cov=. --cov-report=term-missing --cov-fail-under=60
 
 # Run tests and generate HTML coverage report
 test-html:
-	pytest --cov=. --cov-report=html
+	pytest --cov=. --cov-report=html --cov-fail-under=60
 	@echo "Coverage report generated in htmlcov/index.html"
+
+# Run tests with coverage threshold (CI mode)
+test-ci:
+	pytest --cov=. --cov-report=xml --cov-report=term-missing --cov-report=json --cov-fail-under=60 -v
 
 # Clean test artifacts
 clean:
